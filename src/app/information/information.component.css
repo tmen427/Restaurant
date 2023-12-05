@@ -1,0 +1,23 @@
+.container {
+    max-width: 960px;
+  }
+  
+  .lh-condensed { line-height: 1.25; }
+  
+
+  .btn btn-primary {
+    
+  
+  }
+
+  .addpadding {
+    width: 400px; 
+    height: 250px; 
+  }
+
+  .testimonial-content {
+    margin: 20px;
+    padding: 20px;  
+    text-align: center;
+    font-size: 20px;
+  }
