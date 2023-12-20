@@ -13,7 +13,13 @@ import { OrderComponent } from './order/order.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { InformationComponent } from './information/information.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { UserInformationComponent } from './user-information/user-information.component';
+import { authorizeGuard } from './authorize.guard';
+import { DashboardService } from './dashboard.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,13 +32,17 @@ import { InformationComponent } from './information/information.component';
     OrderComponent,
     LoginComponent,
     SignupComponent,
-    InformationComponent
+    InformationComponent,
+    UserInformationComponent, 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule, 
+    FormsModule, 
+    HttpClientModule
   ],
-  providers: [],
+  providers: [CookieService, DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
