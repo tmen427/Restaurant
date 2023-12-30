@@ -18,8 +18,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { UserInformationComponent } from './user-information/user-information.component';
-import { authorizeGuard } from './authorize.guard';
+
 import { DashboardService } from './dashboard.service';
+import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,8 @@ import { DashboardService } from './dashboard.service';
     LoginComponent,
     SignupComponent,
     InformationComponent,
-    UserInformationComponent, 
+    UserInformationComponent,
+    CompleteCheckoutComponent, 
   ],
   imports: [
     BrowserModule,

@@ -10,19 +10,25 @@ export class DashboardService {
   /**
    *
    */
-  constructor(private CookieService: CookieService) {
-    
-    
-  }
+  constructor(private CookieService: CookieService) {}
+
+  public showingLogout: boolean = false; 
 
   canActivate(): boolean {
 
-    if (this.CookieService.get("token")) {
-      return true}; 
-    
+    if (localStorage.getItem("id_token") && localStorage.getItem("user")) 
+       {
+              
+          return true; 
+       }
       return false; 
   }
 
+  showLogOut(avalue: boolean): boolean {
+    console.log("the showlogout should have changed from here")
+    console.log(avalue);
+    return this.showingLogout = avalue; 
+  }
 
 }
   

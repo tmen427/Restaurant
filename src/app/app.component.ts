@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from './cart.service';
+import { DashboardService } from './dashboard.service';
 
 
 
@@ -12,13 +13,35 @@ import { CartService } from './cart.service';
 export class AppComponent {
   title = 'Resturant';
   cartSize: number = 0;  
-  constructor(private cartService: CartService) {}
+  showLogin: boolean = true; 
+  showSignup: boolean = true; 
+  showLogOut: boolean = this.Dash.showingLogout; 
+  
+  constructor(private cartService: CartService, private Dash: DashboardService) {}
+
+  LogOut() {
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("myItemList");
+    localStorage.removeItem("myItemSize"); 
+    location.reload(); 
+  }
+  
 
   ngOnInit(): void {
-  
    //not the best solution
-    setInterval(()=>{ this.cartSize = this.cartService.getCartSize(); }, 100);
-    //console.log("in the app.component" + this.cartService.getCartSize())
+   
+   this.showLogOut = this.Dash.showingLogout; 
+   console.log(this.Dash.showingLogout)
+    setInterval(()=>{ this.cartSize = this.cartService.getCartSize();
+         
+    }, 100);
+    
+    if (localStorage.getItem("id_token") && localStorage.getItem("user")) {
+      this.showLogin = false; 
+      this.showSignup = false; 
+      this.showLogOut = true; 
+    }
   }
 
 }

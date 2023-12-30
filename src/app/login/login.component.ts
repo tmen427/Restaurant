@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import { HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { jwtDecode } from "jwt-decode";
+import { DashboardService } from '../dashboard.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
 
-constructor(private Http: HttpClient, private cookieService: CookieService, private Router: Router) {  
+constructor(private Dash: DashboardService, private Http: HttpClient, private cookieService: CookieService, private Router: Router) {  
 }
 
 Url: string = "https://localhost:7004/api/Auth/login/"; 
@@ -24,6 +26,7 @@ LogIn = new FormGroup({
   UserName: new FormControl(""), 
   Password: new FormControl("")
 })
+
 
 onSubmit() {
 
@@ -35,25 +38,31 @@ onSubmit() {
 
   let options = { headers: headers, withCredentials: true };
 
-  let username1 = this.LogIn.value.UserName; 
+  let username1 = this.LogIn.value.UserName!; 
   let password = this.LogIn.value.Password; 
   const body = {username: username1, password: password}; 
 
   this.Http.post(this.Url, body, {...options, responseType: 'text'}).subscribe(
     response => {       
-                 // if ('ey'== response.slice(0,2)) console.log("this is i a valid jwt token")   
-                  let x = this.cookieService.get("token");
-                  console.log(x); 
-                //  const header = { 'Authorization': "Bearer" + ' ' + response }
-                //  this.Http.get<any>('https://localhost:7004/api/Auth/getusers', {headers: header}).subscribe(data=>console.log(data))
+          //         this.Dash.showLogOut(true); 
+                //you cannot progress to the next screen without the correct credentials  
+                 localStorage.setItem('id_token', response);     
+                 //if you get to this point then the username is legitimate  
+                 localStorage.setItem("user", username1); 
                   
-                 
-                  
-                  //
-                  this.Router.navigate(['userinfo']); 
+          
+                  if (response=='Invalid UserName' || response == 'Invalid Password') 
+                  {
+                  localStorage.removeItem("id_token");
+                  localStorage.removeItem("user"); 
+                  }
 
-                 // let x = this.cookieService.get('token'); 
-               
+                  //redirect 
+                  this.Router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                    this.Router.navigate(['userinfo']);
+                }); 
+                 // this.Router.navigate(['userinfo']); 
+             
                 }
     
     //error => console.log(error)
