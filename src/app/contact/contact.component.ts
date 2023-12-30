@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../http.service';
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class ContactComponent {
 
   
-  constructor(private Http: HttpClient) {
+  constructor(private HttpService: HttpService) {
     
     
   }
@@ -24,8 +25,7 @@ export class ContactComponent {
 
 
 FormSubmit() {
-
-  this.Http.post<any>("https://localhost:7004/api/Order/Contact", this.ContactForm.value).subscribe(data=>console.log(data))
+    this.HttpService.ContactForm(this.ContactForm.value); 
 }
 
 }

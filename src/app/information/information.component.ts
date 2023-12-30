@@ -3,7 +3,8 @@ import { CartService } from '../cart.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormControlName, Validators, FormArray, Form }from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {of} from 'rxjs';
+import { HttpService } from '../http.service';
+
 @Component({
   selector: 'app-information',
   templateUrl: './information.component.html',
@@ -23,7 +24,7 @@ InformationForm = new FormGroup({
   UserName: new FormControl(localStorage.getItem("user"))
 })
 
-  constructor(private cartService: CartService, private Router: Router, private Http: HttpClient) {}
+  constructor(private cartService: CartService, private Router: Router, private Http: HttpClient, private HttpService: HttpService) {}
   displayArray: any[] = [];  
   priceArray: any[] = [];
   finalprice: number = 0;  
@@ -33,11 +34,7 @@ InformationForm = new FormGroup({
 
   submitInformation() {
 
-    let url = 'https://localhost:7004/api/Order/EntireForm'; 
-    
-    this.Http.post<any>(url, this.InformationForm.value).subscribe(data=>{
-     // console.log(data)
-    })
+    this.HttpService.InformationForm(this.InformationForm.value); 
 
     this.displayArray = this.cartService.getCartItems().map((x: any)=>JSON.parse(x));  
     let displayItem = this.displayArray.map((p: any)=>Object.values(p)); 
@@ -45,17 +42,16 @@ InformationForm = new FormGroup({
     for(var i = 0; i<displayItem.length; i++) {
       let price = displayItem[i][1]; 
       let item = displayItem[i][0]; 
-      //populat the formarray 
+      //populate the formarray 
       let cart = this.InformationForm.get("CartItems") as FormArray; 
       cart.push(new FormControl({item: item, price: price}))
-      //handle it like you would a normal array 
+   
       let formarrayItem = cart.value[i].item; 
       let formarrayPrice = cart.value[i].price; 
       //  console.log(cart.value)
-      //this.InformationForm.value.NameonCard
      this.example = {orderInformationNameonCard: this.InformationForm.value.NameonCard, item: formarrayItem, price : formarrayPrice}
-     this.Http.post("https://localhost:7004/api/Order", this.example).subscribe(data=>console.log(data)); 
- 
+    
+     this.HttpService.MenuForm(this.example); 
     }
 
     console.log(this.InformationForm.value);
