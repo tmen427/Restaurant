@@ -11,16 +11,21 @@ export class HttpService {
   constructor(private Http: HttpClient) { }
 
   InformationForm(body: any) {
-    let url = 'https://localhost:7004/api/Order/PaymentInformation'; 
+    let url = 'http://34.224.64.48/backend/api/Order/PaymentInformation'
+   // let url = 'https://localhost:7004/api/Order/PaymentInformation'; 
     this.Http.post<any>(url, body).subscribe(data=>console.log(data)); 
   }
 
   MenuForm(body: any) {
-  this.Http.post("https://localhost:7004/api/Order", body).subscribe(data=>console.log(data)); 
+   // let url = "https://localhost:7004/api/Order"; 
+    let url = "http://34.224.64.48/backend/api/Order"; 
+  this.Http.post(url, body).subscribe(data=>console.log(data)); 
   }
 
   ContactForm(body: any) {
-  this.Http.post<any>("https://localhost:7004/api/Order/ContactInformation", body).subscribe(data=>console.log(data))
+   // let url = "https://localhost:7004/api/Order/ContactInformation"
+    let url = "http://34.224.64.48/backend/api/Order/ContactInformation"; 
+  this.Http.post<any>("url", body).subscribe(data=>console.log(data))
   }
 
 
