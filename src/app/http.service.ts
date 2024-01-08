@@ -10,8 +10,8 @@ import { HttpHeaders } from '@angular/common/http';
 export class HttpService {
 
   constructor(private Http: HttpClient) { }
-  url: string = "https://localhost:7004/"; 
- //url: string = 'http://34.224.64.48/'; 
+ //url: string = "https://localhost:7004/"; 
+ url: string = 'http://34.224.64.48/'; 
  
 
   InformationForm(body: any) {
