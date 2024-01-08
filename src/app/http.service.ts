@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 
 
@@ -25,11 +26,18 @@ export class HttpService {
   ContactForm(body: any) {
    // let url = "https://localhost:7004/api/Order/ContactInformation"
     let url = "http://34.224.64.48/backend/api/Order/ContactInformation"; 
-  this.Http.post<any>("url", body).subscribe(data=>console.log(data))
+  this.Http.post<any>(url, body).subscribe(data=>console.log(data)); 
   }
 
-
-
+  BookForm(body: any) {
+    let url = "https://localhost:7004/api/Order/BookingInformation"; 
+  //  let url = "http://34.224.64.48/backend/api/Order/BookingInformation"; 
+  const httpHeaders: HttpHeaders = new HttpHeaders({
+    responseType: 'text'
+});
+   this.Http.post(url, body, {responseType: "text" }).subscribe(data=>console.log(data));  
+  }
+ 
 }
 
 
