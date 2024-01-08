@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '../http.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -10,7 +11,7 @@ import { HttpService } from '../http.service';
 export class ContactComponent {
 
   
-  constructor(private HttpService: HttpService) {
+  constructor(private HttpService: HttpService, private Router: Router) {
     
     
   }
@@ -26,6 +27,8 @@ export class ContactComponent {
 
 FormSubmit() {
     this.HttpService.ContactForm(this.ContactForm.value); 
+  
+    this.Router.navigate(['contactcomplete'])
 }
 
 }

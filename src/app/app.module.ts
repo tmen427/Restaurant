@@ -21,6 +21,8 @@ import { UserInformationComponent } from './user-information/user-information.co
 
 import { DashboardService } from './dashboard.service';
 import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout.component';
+import { BookingCompleteComponent } from './booking-complete/booking-complete.component';
+import { ContactCompleteComponent } from './contact-complete/contact-complete.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +37,9 @@ import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout
     SignupComponent,
     InformationComponent,
     UserInformationComponent,
-    CompleteCheckoutComponent, 
+    CompleteCheckoutComponent,
+    BookingCompleteComponent,
+    ContactCompleteComponent, 
   ],
   imports: [
     BrowserModule,

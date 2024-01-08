@@ -13,6 +13,8 @@ import { InformationComponent } from './information/information.component';
 import { UserInformationComponent } from './user-information/user-information.component';
 import { DashboardService } from './dashboard.service';
 import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout.component';
+import { BookingCompleteComponent } from './booking-complete/booking-complete.component';
+import { ContactCompleteComponent } from './contact-complete/contact-complete.component';
 const routes: Routes = [
   {path:"", component: HomeComponent},
   {path:"home", component: HomeComponent},
@@ -26,7 +28,9 @@ const routes: Routes = [
   {path: "signup", component: SignupComponent}, 
   {path: "information", component: InformationComponent}, 
   {path: "userinfo",   canActivate: [DashboardService], component: UserInformationComponent},
-   {path: "complete", component: CompleteCheckoutComponent}
+   {path: "complete", component: CompleteCheckoutComponent},
+   {path: "bookingcomplete", component: BookingCompleteComponent},
+   {path: "contactcomplete", component: ContactCompleteComponent}
 ];
 
 @NgModule({
