@@ -10,32 +10,28 @@ import { HttpHeaders } from '@angular/common/http';
 export class HttpService {
 
   constructor(private Http: HttpClient) { }
+  url: string = "https://localhost:7004/"; 
+ //url: string = 'http://34.224.64.48/'; 
+ 
 
   InformationForm(body: any) {
-    let url = 'http://34.224.64.48/backend/api/Order/PaymentInformation'
-   // let url = 'https://localhost:7004/api/Order/PaymentInformation'; 
-    this.Http.post<any>(url, body).subscribe(data=>console.log(data)); 
+    let urlconcat = this.url+""+"backend/api/Order/PaymentInformation"; 
+    this.Http.post<any>(urlconcat, body).subscribe(data=>console.log(data)); 
   }
 
   MenuForm(body: any) {
-   // let url = "https://localhost:7004/api/Order"; 
-    let url = "http://34.224.64.48/backend/api/Order"; 
-  this.Http.post(url, body).subscribe(data=>console.log(data)); 
+    let urlconcat = this.url+""+"backend/api/Order"; 
+    this.Http.post(urlconcat, body).subscribe(data=>console.log(data)); 
   }
 
   ContactForm(body: any) {
-   // let url = "https://localhost:7004/api/Order/ContactInformation"
-    let url = "http://34.224.64.48/backend/api/Order/ContactInformation"; 
-  this.Http.post<any>(url, body).subscribe(data=>console.log(data)); 
+  let urlconcat = this.url+""+"backend/api/Order/ContactInformation"; 
+  this.Http.post<any>(urlconcat, body).subscribe(data=>console.log(data)); 
   }
 
   BookForm(body: any) {
-    let url = "https://localhost:7004/api/Order/BookingInformation"; 
-  //  let url = "http://34.224.64.48/backend/api/Order/BookingInformation"; 
-  const httpHeaders: HttpHeaders = new HttpHeaders({
-    responseType: 'text'
-});
-   this.Http.post(url, body, {responseType: "text" }).subscribe(data=>console.log(data));  
+    let urlconcat = this.url+""+"backend/api/Order/BookingInformation"; 
+    this.Http.post(urlconcat, body, {responseType: "text" }).subscribe(data=>console.log(data));  
   }
  
 }
