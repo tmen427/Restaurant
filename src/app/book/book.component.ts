@@ -23,14 +23,11 @@ export class BookComponent {
 
    
    FormSubmit() {
-    console.log(this.BookForm.value)
+  
      this.Http.BookForm(this.BookForm.value); 
-    if (this.Http.BookForm !==null) {
-      console.log(this.Http.BookForm)
-      console.log('possibly in the form response'); 
-    }
-    //to the route 
-    this.Router.navigate(['bookingcomplete'])
+  
+ 
+
    }
 
 

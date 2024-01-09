@@ -28,7 +28,7 @@ export class ContactComponent {
 FormSubmit() {
     this.HttpService.ContactForm(this.ContactForm.value); 
   
-    this.Router.navigate(['contactcomplete'])
+  
 }
 
 }
