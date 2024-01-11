@@ -26,9 +26,11 @@ export class ContactComponent {
 
 
 FormSubmit() {
-    this.HttpService.ContactForm(this.ContactForm.value); 
-  
-  
+    this.HttpService.ContactForm(this.ContactForm.value);   
+}
+
+ngOnInit() {
+  this.HttpService.GetCartItems(); 
 }
 
 }
