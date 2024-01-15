@@ -54,15 +54,14 @@ InformationForm = new FormGroup({
      this.HttpService.MenuForm(this.example); 
     }
 
-    console.log(this.InformationForm.value);
-   
+  
     this.displayArray = [];  
     this.priceArray = [];
     this.finalprice = 0;  
     this.finalpricestring = "0"; 
     this.conversion = []; 
     localStorage.clear();
-    this.Router.navigate(['complete'])
+  //  this.Router.navigate(['complete'])
   }
    
    //remove items from the array and re-update the localstorage array

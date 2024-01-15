@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpService } from '../http.service';
-import { FormGroup, FormControlName, FormControl } from '@angular/forms';
+import { FormGroup, FormControlName, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-book',
@@ -12,23 +12,21 @@ export class BookComponent {
 
   
   BookForm = new FormGroup({
-    name: new FormControl(""),
-    email: new FormControl(""),
-    phone: new FormControl(""),
-    date: new FormControl(""), 
-    time: new FormControl(""),
-    people: new FormControl(""), 
-    message: new FormControl("")
+    name: new FormControl("", Validators.required),
+    email: new FormControl("", Validators.required),
+    phone: new FormControl("", Validators.required),
+    date: new FormControl("", Validators.required), 
+    time: new FormControl("", Validators.required),
+    people: new FormControl("", Validators.required), 
+    message: new FormControl("", Validators.required)
  })
 
    
    FormSubmit() {
-  
      this.Http.BookForm(this.BookForm.value); 
+     }
+
   
- 
-
-   }
-
+   
 
 }

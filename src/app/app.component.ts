@@ -32,7 +32,7 @@ export class AppComponent {
    //not the best solution
    
    this.showLogOut = this.Dash.showingLogout; 
-   console.log(this.Dash.showingLogout)
+  // console.log(this.Dash.showingLogout)
     setInterval(()=>{ this.cartSize = this.cartService.getCartSize();
          
     }, 100);

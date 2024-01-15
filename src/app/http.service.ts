@@ -13,13 +13,13 @@ import { catchError, retry} from 'rxjs';
 export class HttpService {
 
   constructor(private Http: HttpClient, private router: Router) { }
- url: string = "https://localhost:7004/"; 
+// url: string = "https://localhost:7004/"; 
  //url: string = 'http://34.224.64.48'; 
-//url: string = 'https://resturant.tonymdesigns.com/backend/'
+url: string = 'https://resturant.tonymdesigns.com/backend/'
  
  GetCartItems() {
    this.Http.get<any>('https://localhost:7004/api/Order/CartItems').subscribe({
-    next: (data) => console.log(data),
+    next: (data) => console.log("GET worked!"),
     error: (data) => console.log(data)
  })
  }
@@ -28,14 +28,18 @@ export class HttpService {
     let urlconcat = this.url+""+"api/Order/PaymentInformation"; 
   
     this.Http.post<any>(urlconcat, body).subscribe({
-      next: data=>console.log(data),
-      error: error=> console.log(error)}); 
+      next: data=> this.router.navigate(['complete']),
+      error: error=> this.router.navigate(['errors'])
+    }); 
   }
 
   MenuForm(body: any) {
     let urlconcat = this.url+""+"api/Order"; 
     this.Http.post(urlconcat, body).subscribe({
-      next: data=>console.log(data), 
+      next: data=>{
+        //console.log("POST worked!")
+    },
+       
       error: error=> console.log(error)
     }); 
   }
@@ -44,8 +48,11 @@ export class HttpService {
   let urlconcat = this.url+""+"api/Order/ContactInformation"; 
   this.Http.post<any>(urlconcat, body).subscribe({
     //change this in the future
-   next: data=> console.log(data), //this.router.navigate(['contactcomplete']), 
-   error: error=> console.log("this is the error" + error)
+   next: data=>  this.router.navigate(['contactcomplete']), 
+   error: error=> {
+    console.log(error);
+    this.router.navigate(['errors'])
+   }
    })
   }
 
@@ -53,7 +60,10 @@ export class HttpService {
     let urlconcat = this.url+""+"api/Order/BookingInformation"; 
     this.Http.post(urlconcat, body, {responseType: "text" }).subscribe({
       next: data=> this.router.navigate(['bookingcomplete']), 
-      error: error=> console.log(error) 
+      error: error=> {
+        console.log(error)
+        this.router.navigate(['errors'])
+      }
   });  
   }
  

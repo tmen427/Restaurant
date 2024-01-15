@@ -23,6 +23,7 @@ import { DashboardService } from './dashboard.service';
 import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout.component';
 import { BookingCompleteComponent } from './booking-complete/booking-complete.component';
 import { ContactCompleteComponent } from './contact-complete/contact-complete.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { ContactCompleteComponent } from './contact-complete/contact-complete.co
     UserInformationComponent,
     CompleteCheckoutComponent,
     BookingCompleteComponent,
-    ContactCompleteComponent, 
+    ContactCompleteComponent,
+    ErrorPageComponent, 
   ],
   imports: [
     BrowserModule,

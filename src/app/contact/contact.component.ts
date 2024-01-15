@@ -30,7 +30,7 @@ FormSubmit() {
 }
 
 ngOnInit() {
-  this.HttpService.GetCartItems(); 
+ 
 }
 
 }
