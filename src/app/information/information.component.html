@@ -112,37 +112,31 @@
               <div class="col-md-6 mb-3">
                 <label for="cc-name">Name on card</label>
                 <input type="text" class="form-control" id="cc-name" placeholder="John Doe" formControlName="NameonCard" required>
+             <!--
                 <small class="text-muted">Full name as displayed on card</small>
-                <div class="invalid-feedback">
-                  Name on card is required
-                </div>
+              -->
+                <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a Name</span>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="cc-number">Credit card number</label>
                 <input type="text" class="form-control" id="cc-number" placeholder="000-000-0000" formControlName="CreditCardNumber" >
-                <div class="invalid-feedback">
-                  Credit card number is required
-                </div>
+                <span *ngIf="CreditCardNumber && CreditCardNumber?.invalid && CreditCardNumber?.touched">Please enter a Credit Card Number</span>
               </div>
             </div>
             <div class="row">
               <div class="col-md-3 mb-3">
                 <label for="cc-expiration">Expiration</label>
                 <input type="text" class="form-control" id="cc-expiration"  placeholder="12/30"  formControlName="Expiration" required>
-                <div class="invalid-feedback">
-                  Expiration date required
-                </div>
+                <span *ngIf=" Expiration && Expiration?.invalid && Expiration?.touched">Please enter an expiration</span>
               </div>
               <div class="col-md-3 mb-3">
                 <label for="cc-cvv">CVV</label>
                 <input type="text" class="form-control" id="cc-cvv" placeholder="000"  formControlName="CVV" required>
-                <div class="invalid-feedback">
-                  Security code required
-                </div>
+                <span *ngIf=" CVV && CVV?.invalid && CVV?.touched">Please enter an CVV</span>
               </div>
             </div>
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="submitInformation()">Complete Checkout</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="InformationForm.invalid" (click)="submitInformation()">Complete Checkout</button>
        
         </div>
       </div>

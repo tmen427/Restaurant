@@ -16,7 +16,7 @@ InformationForm = new FormGroup({
   Credit: new FormControl('true', Validators.required),
   Debit: new FormControl('false'),  
   NameonCard: new FormControl('John Doe'), 
-  CreditCardNumber: new FormControl('000-000-0000'),
+  CreditCardNumber: new FormControl('000-000-0000', Validators.required),
   Expiration: new FormControl('12/30'), 
   CVV: new FormControl('000'), 
  // CartItems: new FormControl(localStorage.getItem('myItemList')), 
@@ -24,6 +24,30 @@ InformationForm = new FormGroup({
   UserName: new FormControl(localStorage.getItem("user"))
 })
 
+  get Credit() {
+    return this.InformationForm.get("Credit")
+  }
+  get Debit() {
+    return this.InformationForm.get("Debit")
+  }
+  get NameonCard() {
+    return this.InformationForm.get("NameonCard")
+  }
+  get CreditCardNumber() {
+    return this.InformationForm.get("CreditCardNumber")
+  }
+  get Expiration() {
+    return this.InformationForm.get("Expiration")
+  }
+  get CVV() {
+    return this.InformationForm.get("CVV")
+  }
+  //get CartItems() {
+    //return this.InformationForm.get("CartItems")
+  //}
+  get UserName() {
+    return this.InformationForm.get("UserName")
+  }
   constructor(private cartService: CartService, private Router: Router, private Http: HttpClient, private HttpService: HttpService) {}
   displayArray: any[] = [];  
   priceArray: any[] = [];
