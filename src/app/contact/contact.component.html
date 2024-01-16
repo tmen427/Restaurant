@@ -60,25 +60,30 @@
   
           <form  [formGroup]="ContactForm" class="php-email-form p-3 p-md-4">
             <div class="row">
+            
               <div class="col-xl-6 form-group">
                 <input type="text" name="name" class="form-control" formControlName="name" placeholder="Your Name" required>
+                <span *ngIf="name && name?.invalid && name?.touched">Please fill out a name</span>
               </div>
               <div class="col-xl-6 form-group">
                 <input type="email" class="form-control" formControlName="email" id="email" placeholder="Your Email" required>
+                <span *ngIf="email && email?.invalid && email?.touched">Please fill out a valid email</span>
               </div>
             </div>
             <div class="form-group">
               <input type="text" class="form-control" formControlName="subject" id="subject" placeholder="Subject" required>
+              <span *ngIf="subject && subject?.invalid && subject?.touched">Please fill out a subject</span>
             </div>
             <div class="form-group">
               <textarea class="form-control" formControlName="message" rows="5" placeholder="Message" required></textarea>
+              <span *ngIf="message && message?.invalid && message?.touched">Message is either too long or short</span>
             </div>
             <div class="my-3">
               <div class="loading">Loading</div>
               <div class="error-message"></div>
               <div class="sent-message">Your message has been sent. Thank you!</div>
             </div>
-            <div class="text-center"><button type="submit" (click)="FormSubmit()">Send Message</button></div>
+            <div class="text-center"><button type="submit"[disabled]="ContactForm.invalid" (click)="FormSubmit()">Send Message</button></div>
           </form><!--End Contact Form -->
   
         </div>
