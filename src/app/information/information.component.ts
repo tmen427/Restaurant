@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ErrorHandler } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormControlName, Validators, FormArray, Form }from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpService } from '../http.service';
+import { catchError, throwError, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-information',
@@ -56,9 +57,29 @@ InformationForm = new FormGroup({
   conversion: any[] = []; 
   UserNameFrontend: string = localStorage.getItem("user")!; 
 
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+
+
+
+ NoErrors: boolean = false; 
+
   submitInformation() {
 
-    this.HttpService.InformationForm(this.InformationForm.value); 
+
+
+
 
     this.displayArray = this.cartService.getCartItems().map((x: any)=>JSON.parse(x));  
     let displayItem = this.displayArray.map((p: any)=>Object.values(p)); 
@@ -74,10 +95,24 @@ InformationForm = new FormGroup({
       let formarrayPrice = cart.value[i].price; 
       //  console.log(cart.value)
      this.example = {orderInformationNameonCard: this.InformationForm.value.NameonCard, item: formarrayItem, price : formarrayPrice}
-    
-     this.HttpService.MenuForm(this.example); 
+      
+    //gets submitted in the for loop, but if an error is thrown break it 
+     this.HttpService.MenuForm(this.example).subscribe({
+       next: data=>{
+         console.log("POST worked!")
+         console.log(data);
+     },
+         
+       error: error=> { this.NoErrors = true; 
+       }
+     }
+     )
     }
+//if there is an error from the above httpservice then don't continue forward. stop the app
 
+//if the observable returns an error then abort code 
+//redirect after...
+  // this.HttpService.InformationForm(this.InformationForm.value)
   
     this.displayArray = [];  
     this.priceArray = [];
@@ -85,7 +120,9 @@ InformationForm = new FormGroup({
     this.finalpricestring = "0"; 
     this.conversion = []; 
     localStorage.clear();
-  //  this.Router.navigate(['complete'])
+    if (this.NoErrors == true) {
+   this.Router.navigate(['complete'])
+    }
   }
    
    //remove items from the array and re-update the localstorage array
@@ -141,5 +178,8 @@ InformationForm = new FormGroup({
       
     }
   }
+
+
+
 
 }
