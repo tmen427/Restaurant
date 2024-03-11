@@ -15,7 +15,7 @@ export class HttpService {
   constructor(private Http: HttpClient, private router: Router) { }
  url: string = "https://localhost:7004/"; 
  //url: string = 'http://34.224.64.48'; 
-//url: string = 'https://resturant.tonymdesigns.com/backend/'
+// url: string = 'https://resturant.tonymdesigns.com/backend/'
  
  GetCartItems() {
    this.Http.get<any>('https://localhost:7004/api/Order/CartItems').subscribe({
@@ -34,10 +34,12 @@ export class HttpService {
   }
 
   MenuForm(body: any) {
-    let urlconcat = this.url+""+"api/Order"; 
+    let urlconcat = this.url+""+"api/Order/postInfo"; 
+ 
     this.Http.post(urlconcat, body).subscribe({
       next: data=>{
         //console.log("POST worked!")
+        console.log(data);
     },
        
       error: error=> console.log(error)
