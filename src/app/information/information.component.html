@@ -115,12 +115,12 @@
              <!--
                 <small class="text-muted">Full name as displayed on card</small>
               -->
-                <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a Name</span>
+                <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a (correct) Name</span>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="cc-number">Credit card number</label>
                 <input type="text" class="form-control" id="cc-number" placeholder="000-000-0000" formControlName="CreditCardNumber" >
-                <span *ngIf="CreditCardNumber && CreditCardNumber?.invalid && CreditCardNumber?.touched">Please enter a Credit Card Number</span>
+                <span *ngIf="CreditCardNumber && CreditCardNumber?.invalid && CreditCardNumber?.touched">Please enter a valid Credit Card Number</span>
               </div>
             </div>
             <div class="row">

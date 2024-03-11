@@ -17,9 +17,9 @@ InformationForm = new FormGroup({
   Credit: new FormControl('true', Validators.required),
   Debit: new FormControl('false'),  
   NameonCard: new FormControl('John Doe'), 
-  CreditCardNumber: new FormControl('000-000-0000', Validators.required),
-  Expiration: new FormControl('12/30'), 
-  CVV: new FormControl('000'), 
+  CreditCardNumber: new FormControl('000-000-0000', Validators.pattern("^[0-9]{3}(-)[0-9]{3}(-)[0-9]{4}")),
+  Expiration: new FormControl('12/30', Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
+  CVV: new FormControl('000', [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
  // CartItems: new FormControl(localStorage.getItem('myItemList')), 
   CartItems: new FormArray([]), 
   UserName: new FormControl(localStorage.getItem("user"))
@@ -73,14 +73,8 @@ InformationForm = new FormGroup({
 
 
 
- NoErrors: boolean = false; 
 
   submitInformation() {
-
-
-
-
-
     this.displayArray = this.cartService.getCartItems().map((x: any)=>JSON.parse(x));  
     let displayItem = this.displayArray.map((p: any)=>Object.values(p)); 
 
@@ -99,12 +93,19 @@ InformationForm = new FormGroup({
     //gets submitted in the for loop, but if an error is thrown break it 
      this.HttpService.MenuForm(this.example).subscribe({
        next: data=>{
-         console.log("POST worked!")
-         console.log(data);
+         console.log("POST worked!"); 
+         this.displayArray = [];  
+         this.priceArray = [];
+         this.finalprice = 0;  
+         this.finalpricestring = "0"; 
+         this.conversion = []; 
+         localStorage.clear();
+         this.Router.navigate(['complete'])
      },
          
-       error: error=> { this.NoErrors = true; 
-       }
+       error: error=> { console.log("it has errors!")
+      
+      }
      }
      )
     }
@@ -113,16 +114,7 @@ InformationForm = new FormGroup({
 //if the observable returns an error then abort code 
 //redirect after...
   // this.HttpService.InformationForm(this.InformationForm.value)
-  
-    this.displayArray = [];  
-    this.priceArray = [];
-    this.finalprice = 0;  
-    this.finalpricestring = "0"; 
-    this.conversion = []; 
-    localStorage.clear();
-    if (this.NoErrors == true) {
-   this.Router.navigate(['complete'])
-    }
+
   }
    
    //remove items from the array and re-update the localstorage array
