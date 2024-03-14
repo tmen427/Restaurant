@@ -16,7 +16,7 @@ export class InformationComponent {
 InformationForm = new FormGroup({
   Credit: new FormControl('true', Validators.required),
   Debit: new FormControl('false'),  
-  NameonCard: new FormControl('John Doe'), 
+  NameonCard: new FormControl('John Doe', [Validators.required, Validators.pattern("^[a-zA-z\\s]*$")]), 
   CreditCardNumber: new FormControl('000-000-0000', Validators.pattern("^[0-9]{3}(-)[0-9]{3}(-)[0-9]{4}")),
   Expiration: new FormControl('12/30', Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
   CVV: new FormControl('000', [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 

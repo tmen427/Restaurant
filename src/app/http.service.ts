@@ -13,9 +13,9 @@ import { catchError, retry, throwError, pipe} from 'rxjs';
 export class HttpService {
 
   constructor(private Http: HttpClient, private router: Router) { }
- url: string = "https://localhost:7004/"; 
+// url: string = "https://localhost:7004/"; 
  //url: string = 'http://34.224.64.48'; 
-// url: string = 'https://resturant.tonymdesigns.com/backend/'
+ url: string = 'https://resturant.tonymdesigns.com/backend/'
  
 private handleError(error: HttpErrorResponse) {
   if (error.status === 0) {
