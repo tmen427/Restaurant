@@ -13,9 +13,9 @@ import { catchError, retry, throwError, pipe} from 'rxjs';
 export class HttpService {
 
   constructor(private Http: HttpClient, private router: Router) { }
-// url: string = "https://localhost:7004/"; 
+ url: string = "https://localhost:7004/"; 
  //url: string = 'http://34.224.64.48'; 
- url: string = 'https://resturant.tonymdesigns.com/backend/'
+ //url: string = 'https://resturant.tonymdesigns.com/backend/'
  
 private handleError(error: HttpErrorResponse) {
   if (error.status === 0) {
@@ -30,6 +30,16 @@ private handleError(error: HttpErrorResponse) {
   }
   // Return an observable with a user-facing error message.
   return throwError(() => new Error('Something bad happened; please try again later.'));
+}
+
+
+MakeUser(body: any) {
+  let url = this.url+""+"api/Auth/SignUp";
+
+  this.Http.post<any>(url, body).subscribe({
+    next: data => console.log(data), 
+    error: error=> console.log(error)
+  })
 }
 
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { confirmPasswordValidator } from '../confirm-password.validator';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-signup',
@@ -9,6 +10,7 @@ import { confirmPasswordValidator } from '../confirm-password.validator';
 })
 export class SignupComponent {
 
+  constructor(private Http : HttpService) {}
 
   Url: string = "https://localhost:7004/api/Auth/SignUp"; 
 
@@ -38,7 +40,11 @@ export class SignupComponent {
 
 
   SubmitSignUp() {
-    console.log(this.SignUpForm.value.Email?.toString); 
+    
+    var SignUpForm = this.SignUpForm.value; 
+    console.log(this.SignUpForm.value); 
+    this.Http.MakeUser(SignUpForm); 
+
   }
 
 
