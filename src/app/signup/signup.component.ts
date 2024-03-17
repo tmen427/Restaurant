@@ -17,7 +17,7 @@ export class SignupComponent {
   Url: string = "https://localhost:7004/api/Auth/SignUp"; 
 
   SignUpForm = new FormGroup({
-    Email: new FormControl("", Validators.required, CheckEmailExistsValidator.createValidator(this.Http)),
+    Email: new FormControl("", [Validators.required, Validators.email], CheckEmailExistsValidator.createValidator(this.Http)),
     Password: new FormControl("", Validators.required), 
     PasswordConfirm: new FormControl("", Validators.required)},
     { 
@@ -42,7 +42,7 @@ export class SignupComponent {
 
 //cannot submit unless the form is free of errors....
   SubmitSignUp() {
-    
+    console.log("submitting in the signup")
     var SignUpForm = (this.SignUpForm.value); 
    // console.log(JSON.stringify(SignUpForm))
    // console.log(this.SignUpForm.value); 

@@ -49,7 +49,7 @@ MakeUser(body: any) {
       }
       else {
       console.log(data); 
-      this.router.navigate(['home'])
+      this.router.navigate(['home']);
       }
     },
     error: error=>  {

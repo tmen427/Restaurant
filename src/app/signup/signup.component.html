@@ -5,15 +5,14 @@
      
 
       <input type="email" id="email" class="form-control" placeholder="Email address" formControlName="Email" [ngStyle]="{'margin': '10px'}">
-    
-      <div class *ngIf="SignUpForm.get('Email')?.hasError('EmailDuplicate')">This email is a duplicate-use another</div>
+       <span *ngIf="Email && Email?.invalid && Email?.touched">Please enter a valid Email</span>
+      <div class *ngIf="SignUpForm.get('Email')?.hasError('EmailDuplicate')">Use another email. Email has already been taken!</div>
 
       
 
 
-      <!--
-       <span *ngIf="Email && Email?.invalid && Email?.touched">Please enter a valid Email</span>
-    -->
+
+  
       <input type="password" id="inputPassword" class="form-control" placeholder="Password"  formControlName="Password" [ngStyle]="{'margin': '10px'}">
       <span *ngIf="Password && Password?.invalid && Password?.touched">Please enter a valid Password </span>
      
