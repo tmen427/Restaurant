@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { confirmPasswordValidator } from '../confirm-password.validator';
 import { HttpService } from '../http.service';
-
+import { HttpClient } from '@angular/common/http';
+import {Router} from '@angular/router'; 
+import { CheckEmailExistsValidator } from '../check-email-exists.validator';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -10,16 +12,16 @@ import { HttpService } from '../http.service';
 })
 export class SignupComponent {
 
-  constructor(private Http : HttpService) {}
+  constructor(private Http : HttpService, private HttpClient: HttpClient, private Router: Router) {}
 
   Url: string = "https://localhost:7004/api/Auth/SignUp"; 
 
   SignUpForm = new FormGroup({
-    Email: new FormControl("", [Validators.required, Validators.email]),
+    Email: new FormControl("", Validators.required, CheckEmailExistsValidator.createValidator(this.Http)),
     Password: new FormControl("", Validators.required), 
     PasswordConfirm: new FormControl("", Validators.required)},
     { 
-     validators: confirmPasswordValidator
+     validators: [confirmPasswordValidator]
     }
   );
   
@@ -38,11 +40,13 @@ export class SignupComponent {
   }; 
 
 
-
+//cannot submit unless the form is free of errors....
   SubmitSignUp() {
     
-    var SignUpForm = this.SignUpForm.value; 
-    console.log(this.SignUpForm.value); 
+    var SignUpForm = (this.SignUpForm.value); 
+   // console.log(JSON.stringify(SignUpForm))
+   // console.log(this.SignUpForm.value); 
+   //the only way is to subscribe here ....
     this.Http.MakeUser(SignUpForm); 
 
   }

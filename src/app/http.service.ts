@@ -2,7 +2,9 @@ import { ErrorHandler, Injectable, Pipe } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, retry, throwError, pipe} from 'rxjs';
+import { catchError, retry, throwError, pipe, map, Observable, delay} from 'rxjs';
+import { ValidationErrors } from '@angular/forms';
+
 
 
 
@@ -17,7 +19,7 @@ export class HttpService {
  //url: string = 'http://34.224.64.48'; 
  //url: string = 'https://resturant.tonymdesigns.com/backend/'
  
-private handleError(error: HttpErrorResponse) {
+private handleBackendDownError(error: HttpErrorResponse) {
   if (error.status === 0) {
     // A client-side or network error occurred. Handle it accordingly.
     console.error('An error occurred:', error.error);
@@ -36,10 +38,25 @@ private handleError(error: HttpErrorResponse) {
 MakeUser(body: any) {
   let url = this.url+""+"api/Auth/SignUp";
 
-  this.Http.post<any>(url, body).subscribe({
-    next: data => console.log(data), 
-    error: error=> console.log(error)
-  })
+  return this.Http.post<JSON>(url, body).pipe(retry(2), catchError(this.handleBackendDownError))
+  .subscribe({
+    next: data => {
+      //if the backend returns an error
+      var backenderror = Object.keys(data); 
+  
+      if (backenderror[0]=="error") {
+       console.log(data)
+      }
+      else {
+      console.log(data); 
+      this.router.navigate(['home'])
+      }
+    },
+    error: error=>  {
+      console.log("this is the error: ")
+      console.log(error)
+    }
+    })
 }
 
 
@@ -58,14 +75,25 @@ MakeUser(body: any) {
       next: data=> this.router.navigate(['complete']),
       error: error=> this.router.navigate(['errors'])
     })
-
-
   }
+
+//returns an obersvable???
+  CheckEmailExist(email: string)  {
+
+    let urlconcat = this.url+""+"api/Auth/CheckDuplicateEmail?email="+email; 
+    console.log(urlconcat)
+   
+    //return obsevable boolean
+    return this.Http.get<boolean>(urlconcat);
+  }
+
+
+
 
   MenuForm(body: any) {
     let urlconcat = this.url+""+"api/Order/postInfo"; 
  
-   return this.Http.post(urlconcat, body).pipe(retry(3), catchError(this.handleError)); 
+   return this.Http.post(urlconcat, body).pipe(retry(2), catchError(this.handleBackendDownError)); 
     //.subscribe({
     //  next: data=>{
      //   console.log("POST worked!")
