@@ -5,6 +5,13 @@ import { HttpService } from '../http.service';
 import { HttpClient } from '@angular/common/http';
 import {Router} from '@angular/router'; 
 import { CheckEmailExistsValidator } from '../check-email-exists.validator';
+
+
+ interface UserInfo {
+  Email: string, 
+  Password?: string, 
+  PasswordConfirm?: string
+}
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -39,15 +46,17 @@ export class SignupComponent {
     return this.SignUpForm.get("PasswordConfirm")
   }; 
 
+  x: string = "hello "; 
+
 
 //cannot submit unless the form is free of errors....
   SubmitSignUp() {
     console.log("submitting in the signup")
     var SignUpForm = (this.SignUpForm.value); 
    // console.log(JSON.stringify(SignUpForm))
-   // console.log(this.SignUpForm.value); 
-   //the only way is to subscribe here ....
-    this.Http.MakeUser(SignUpForm); 
+
+    console.log(SignUpForm);  
+    this.Http.MakeUser(SignUpForm, this.SignUpForm.value.Email!); 
 
   }
 

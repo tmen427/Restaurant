@@ -19,8 +19,10 @@ import { HttpService } from './http.service';
           //this part is not working....
             map((result: boolean) => {
               console.log("in the custom validators")
+              //supposed to return either true or false, returns nothing....
               console.log(result)
-             return result ? { EmailDuplicate: true } : null
+             return result ? { EmailDuplicate: true } : null; 
+        //  return result? null : {EmailDuplicate: true}
               }), 
               
 

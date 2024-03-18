@@ -1,19 +1,25 @@
 <body class="text-center">
   
-    <form [formGroup]="LogIn" class="form-signin"  (ngSubmit)="onSubmit()">
+    <form [formGroup]="LogInForm" class="form-signin"  (ngSubmit)="onSubmit()" #myform="ngForm">
       <img class="mb-4" src="./assets/img/yum.jpg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Login To Your Account</h1>
 
       <input type="email" id="inputUser" class="form-control" placeholder="Email" formControlName="Email" [ngStyle]="{'margin': '10px'}">
-
+     
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" formControlName="Password" [ngStyle]="{'margin': '10px'}">
-      
+      <span *ngIf="Password && Password?.invalid && Password?.touched">Please enter a valid Password </span>
+
+      <div class *ngIf="LogInForm.get('Email')?.hasError('EmailDuplicate') && myform.submitted">Either email or password is incorrect!</div>
+  
+      <!--
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" fdprocessedid="1hglpm">Submit</button>
+
+    -->
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       <p class="mt-5 mb-3 text-muted"></p>
     </form>
   

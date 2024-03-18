@@ -7,17 +7,15 @@ import { ValidationErrors } from '@angular/forms';
 
 
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
   constructor(private Http: HttpClient, private router: Router) { }
- url: string = "https://localhost:7004/"; 
+//url: string = "https://localhost:7004/"; 
  //url: string = 'http://34.224.64.48'; 
- //url: string = 'https://resturant.tonymdesigns.com/backend/'
+ url: string = 'https://resturant.tonymdesigns.com/backend/'
  
 private handleBackendDownError(error: HttpErrorResponse) {
   if (error.status === 0) {
@@ -35,7 +33,7 @@ private handleBackendDownError(error: HttpErrorResponse) {
 }
 
 
-MakeUser(body: any) {
+MakeUser(body: any, email: string) {
   let url = this.url+""+"api/Auth/SignUp";
 
   return this.Http.post<JSON>(url, body).pipe(retry(2), catchError(this.handleBackendDownError))
@@ -49,7 +47,9 @@ MakeUser(body: any) {
       }
       else {
       console.log(data); 
-      this.router.navigate(['home']);
+      //change this code in the future 
+      this.Login(body,email); 
+    //  this.router.navigate(['home']);
       }
     },
     error: error=>  {
@@ -85,6 +85,50 @@ MakeUser(body: any) {
    
     //return obsevable boolean
     return this.Http.get<boolean>(urlconcat);
+  }
+
+
+
+Login(body: Object, email: string) {
+    
+   let urlconcat = this.url+""+"api/Auth/login/";  
+//   let options = { headers: h, withCredentials: false };
+ 
+   //, {...options, responseType: 'text'}
+   this.Http.post(urlconcat,body, {responseType: 'text'}).subscribe({
+     next: response => {       
+           //         this.Dash.showLogOut(true); 
+                  console.log("the response says " + response)
+                 //you cannot progress to the next screen without the correct credentials  
+                  localStorage.setItem('id_token', response);     
+                  //if you get to this point then the username is legitimate  
+                  localStorage.setItem("user", email); 
+                   
+           
+                   if (response=='Invalid Email' || response == 'Invalid Password') 
+                   {
+                   localStorage.removeItem("id_token");
+                   localStorage.removeItem("user"); 
+                   }
+ 
+                   //redirect if there are no errors 
+                //   this.Router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                     this.router.navigate(['userinfo']);
+                // }); 
+                  // this.Router.navigate(['userinfo']); 
+              
+                 },
+    
+                 error: error=> {
+                   console.log('this is the error')
+                   console.log(error);
+              
+                  }
+    
+ }) 
+ 
+
+
   }
 
 
