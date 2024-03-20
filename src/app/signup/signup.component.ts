@@ -46,7 +46,7 @@ export class SignupComponent {
     return this.SignUpForm.get("PasswordConfirm")
   }; 
 
-  x: string = "hello "; 
+
 
 
 //cannot submit unless the form is free of errors....

@@ -15,29 +15,28 @@ export class DashboardService {
   public showingLogout: boolean = false; 
 
   canActivate(): boolean {
-
-    if (localStorage.getItem("id_token") && localStorage.getItem("user")) 
+      if (localStorage.getItem("id_token") && localStorage.getItem("user")) 
        {
-              
-          return true; 
+         return true; 
        }
       return false; 
-  }
+    }
 
-  showLogOut(avalue: boolean): boolean {
+    
+  showLogOut(value: boolean): boolean {
     console.log("the showlogout should have changed from here")
-    console.log(avalue);
-    return this.showingLogout = avalue; 
+    console.log(value);
+    return this.showingLogout = value; 
   }
 
 }
   
 //export const canActivate = (isAdmin: boolean, permissionService = inject(DashboardService)) => permissionService.isAdmin(isAdmin);
 
-const canActivateTeam: CanActivateFn =
-    (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-      return inject(DashboardService).canActivate();
-    };
+// const canActivateTeam: CanActivateFn =
+//     (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+//       return inject(DashboardService).canActivate();
+//     };
 
   
 

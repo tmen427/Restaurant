@@ -1,7 +1,7 @@
 
 
 <div class="container" >
-<div class="row">
+<div class="row"> <!--
 <div class="col-md-8 order-md-1"[formGroup]="UserInformation" [ngStyle]="{'padding':'50px'}">
         
      <h4 class="mb-3">User Information</h4>
@@ -10,47 +10,24 @@
               <div class="col-md-6 mb-3">
                 <label for="firstName">First name</label>
                 <input type="text" class="form-control" id="firstName" formControlName="FirstName" value="" required>
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
+           
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastName">Last name</label>
                 <input type="text" class="form-control" id="lastName" formControlName="LastName" placeholder="" value="" required>
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
+             
               </div>
             </div>
-
-            <!--
-            <div class="mb-3">
-              <label for="username">Username</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">@</span>
-                </div>
-                <input type="text" class="form-control" id="username" formControlName="UserName" placeholder="Username" required>
-                <div class="invalid-feedback" style="width: 100%;">
-                  Your username is required.
-                </div>
-              </div>
-            </div>
-          -->
             <div class="mb-3">
               <label for="email">Email </label>
               <input type="email" class="form-control" id="email" formControlName="Email" placeholder="you@example.com">
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
-              </div>
+         
             </div>
 
             <div class="mb-3">
               <label for="address">Address</label>
               <input type="text" class="form-control" id="address" formControlName="Address" placeholder="1234 Main St" required>
-              <div class="invalid-feedback">
-                Please enter your shipping address.
-              </div>
+         
             </div>
 
          
@@ -62,19 +39,15 @@
                   <option value="">Choose...</option>
                   <option>United States</option>
                 </select>
-                <div class="invalid-feedback">
-                  Please select a valid country.
-                </div>
+            
               </div>
               <div class="col-md-4 mb-3">
                 <label for="state">State</label>
                 <select class="custom-select d-block w-100" formControlName="State" id="state" required>
                   <option value="">Choose...</option>
-                  <option>California</option>
+                  <option>Minnesota</option>
                 </select>
-                <div class="invalid-feedback">
-                  Please provide a valid state.
-                </div>
+             
               </div>
               <div class="col-md-3 mb-3">
                 <label for="zip">Zip</label>
@@ -92,5 +65,63 @@
 
 
             </div>
+
+          -->
+
+
+          
+        <div class="col-md-8 order-md-1" [formGroup]="InformationForm">
+          <h4 class="mb-3">Payment</h4>
+          <h3><i>This page is underconstruction and will change in the near future!</i></h3>
+          <div class="d-block my-3">
+            <div class="custom-control custom-radio">
+              <input id="credit" name="Credit" type="radio" class="custom-control-input" value=true formControlName="Credit" checked required>
+              <label class="custom-control-label" for="credit">Credit card</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="debit" name="Debit" type="radio" class="custom-control-input" value=true formControlName="Debit">
+              <label class="custom-control-label" for="debit">Debit card</label>
+            </div>
+            <!--
+            <div class="custom-control custom-radio">
+              <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input"formControlName="PaymentType"required>
+              <label class="custom-control-label" for="paypal">PayPal</label>
+            </div>
+          -->
+
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="cc-name">Name on card</label>
+              <input type="text" class="form-control" id="cc-name" placeholder="John Doe" formControlName="NameonCard" required>
+           <!--
+              <small class="text-muted">Full name as displayed on card</small>
+            -->
+              <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a (correct) Name</span>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="cc-number">Credit card number</label>
+              <input type="text" class="form-control" id="cc-number" placeholder="000-000-0000" formControlName="CreditCardNumber" >
+              <span *ngIf="CreditCardNumber && CreditCardNumber?.invalid && CreditCardNumber?.touched">Please enter a valid Credit Card Number</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="cc-expiration">Expiration</label>
+              <input type="text" class="form-control" id="cc-expiration"  placeholder="12/30"  formControlName="Expiration" required>
+              <span *ngIf=" Expiration && Expiration?.invalid && Expiration?.touched">Please enter an expiration</span>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="cc-cvv">CVV</label>
+              <input type="text" class="form-control" id="cc-cvv" placeholder="000"  formControlName="CVV" required>
+              <span *ngIf=" CVV && CVV?.invalid && CVV?.touched">Please enter an CVV</span>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="InformationForm.invalid" (click)="submitInformation()">Complete Checkout</button>
+     
+      </div>
+    </div>
+
         </div>
-        </div>
+        
