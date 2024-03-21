@@ -2,12 +2,19 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup,FormControl, Validators, FormArray } from '@angular/forms';
 import { concatWith } from 'rxjs';
+import { HttpService } from '../http.service';
+
 @Component({
   selector: 'app-user-information',
   templateUrl: './user-information.component.html',
   styleUrls: ['./user-information.component.css']
 })
 export class UserInformationComponent {
+  
+  constructor(private Http: HttpClient, private HttpService: HttpService) {}
+  
+  
+  
   Username: string = localStorage.getItem("user")!; 
   Token: string = localStorage.getItem("id_token")!; 
    
@@ -62,46 +69,33 @@ get Email() {
 submitInformation() {
   // create a new route here 
      console.log(this.InformationForm.value)
+    this.HttpService.AddUserInformation(this.InformationForm.value); 
+
    }
    
 
 
-   constructor(private Http: HttpClient) {}
 
 
     ngOnInit() {     
            
-
-          
-           const email = this.InformationForm.value.Email; 
-        
+           const email = this.InformationForm.value.Email;   
            //after logging in the user should have a token  from the local storage
            //use token and add it to the header in order to access this restricted route  
-           const header = { 'Authorization': "bearer"+ ' ' + this.Token }
-          // console.log(header);
-           //will restrict access to only the email that is being used in the frontend, also verify in backend
-           let url = 'https://localhost:7004/api/Auth/getusers?email='+email; 
-           this.Http.get<any>(url, {headers: header}).subscribe(data=> {
-           
-            
-            // this.InformationForm.patchValue({
-            //   Credit: data.Credit, 
-            //   CVV: data.CVV, 
-            //   Expiration: data.Expiration, 
-            //   NameonCard: data.NameonCard
-            // })
-    
-          console.log(data.userInformation.creditCardNumber)
-           this.InformationForm.patchValue({ CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+          //  const header = { 'Authorization': "bearer"+ ' ' + this.Token }
+          // // console.log(header);
+          //  //will restrict access to only the email that is being used in the frontend, also verify in backend
+          //  let url = 'https://localhost:7004/api/Auth/getusers?email='+email; 
+          //  this.Http.get<any>(url, {headers: header}).subscribe(data=> {
+               
+          // console.log(data.userInformation.creditCardNumber)
+          //  this.InformationForm.patchValue({ CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+          //   console.log(Object.keys(data))
+          //   console.log(data.userInformation)        
+          // })
 
-        //    console.log(this.InformationForm.getRawValue()); 
-        
-   
-            console.log(Object.keys(data))
-            console.log(data.userInformation)
-           
-        
-          })
+          this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token ); 
+
             }
 
 }

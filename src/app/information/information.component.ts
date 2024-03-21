@@ -25,7 +25,27 @@ InformationForm = new FormGroup({
   UserName: new FormControl(localStorage.getItem("user"))
 })
 
-  get Credit() {
+
+InformationForm1 = new FormGroup({
+  Credit: new FormControl('true', Validators.required),
+  Debit: new FormControl('false'),  
+  NameonCard: new FormControl('John Doe', [Validators.required, Validators.pattern("^[a-zA-z\\s]*$")]), 
+  CreditCardNumber: new FormControl('000-000-0000', Validators.pattern("^[0-9]{3}(-)[0-9]{3}(-)[0-9]{4}")),
+  Expiration: new FormControl('12/30', Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
+  CVV: new FormControl('000', [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
+ // CartItems: new FormControl(localStorage.getItem('myItemList')), 
+  //CartItems: new FormArray([]), 
+  //get the email or username from local storage becuase now you should be logged in 
+  Email: new FormControl(localStorage.getItem("user"))
+})
+
+
+
+Token: string = localStorage.getItem("id_token")!; 
+
+Username: string = localStorage.getItem("user")!; 
+ 
+get Credit() {
     return this.InformationForm.get("Credit")
   }
   get Debit() {
@@ -43,9 +63,9 @@ InformationForm = new FormGroup({
   get CVV() {
     return this.InformationForm.get("CVV")
   }
-  //get CartItems() {
-    //return this.InformationForm.get("CartItems")
-  //}
+  get CartItems() {
+    return this.InformationForm.get("CartItems")
+  }
   get UserName() {
     return this.InformationForm.get("UserName")
   }
@@ -134,6 +154,29 @@ InformationForm = new FormGroup({
    example: any = {}; 
    
    ngOnInit():void {
+
+      //if the user is logged in 
+    // this.HttpService.GetUserInformationByEmail(this.InformationForm1, this.Token ); 
+              
+    const email = this.Username;   
+   // after logging in the user should have a token  from the local storage
+   // use token and add it to the header in order to access this restricted route  
+    const header = { 'Authorization': "bearer"+ ' ' + this.Token }
+   // console.log(header);
+    //will restrict access to only the email that is being used in the frontend, also verify in backend
+    let url = 'https://localhost:7004/api/Auth/getusers?email='+email; 
+    console.log(url)
+    this.Http.get<any>(url, {headers: header}).subscribe(data=> {
+        
+   console.log(data.userInformation.creditCardNumber)
+    this.InformationForm.patchValue({ CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, CartItems: [], Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+     console.log(Object.keys(data))
+     console.log(data.userInformation)        
+   }) 
+
+
+
+
 
 
     if (this.cartService.getCartSize()>0) {

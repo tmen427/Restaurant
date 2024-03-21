@@ -13,7 +13,9 @@ import { ValidationErrors } from '@angular/forms';
 export class HttpService {
 
   constructor(private Http: HttpClient, private router: Router) { }
-url: string = "https://localhost:7004/"; 
+
+
+  url: string = "https://localhost:7004/"; 
  //url: string = 'http://34.224.64.48'; 
 // url: string = 'https://resturant.tonymdesigns.com/backend/'
  
@@ -86,6 +88,40 @@ MakeUser(body: any, email: string) {
     //return obsevable boolean
     return this.Http.get<boolean>(urlconcat);
   }
+
+
+ AddUserInformation(body: object) {
+  let urlconcat = this.url+""+"api/Auth/UserInformation"; 
+
+  this.Http.post(urlconcat, body).subscribe({
+    next: data => console.log("hey everything worked!"), 
+    error: error => console.log(error)
+  })
+
+ }  
+
+
+GetUserInformationByEmail(InformationForm: any, Token: string) {
+       //after logging in the user should have a token  from the local storage
+           //use token and add it to the header in order to access this restricted route  
+           const header = { 'Authorization': "bearer"+ ' ' + Token }
+         console.log(InformationForm.value)
+           //will restrict access to only the email that is being used in the frontend, also verify in backend
+           let url = 'https://localhost:7004/api/Auth/getusers?email='+InformationForm.value.Email; 
+           this.Http.get<any>(url, {headers: header}).subscribe(data=> {
+               
+          console.log(data.userInformation.creditCardNumber)
+          //setting the values in the frontend form 
+           InformationForm.patchValue({ CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+            console.log(Object.keys(data))
+            console.log(data.userInformation)
+           
+        
+          })
+
+
+}
+
 
 
 
