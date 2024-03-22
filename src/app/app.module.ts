@@ -24,6 +24,7 @@ import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout
 import { BookingCompleteComponent } from './booking-complete/booking-complete.component';
 import { ContactCompleteComponent } from './contact-complete/contact-complete.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { SavedInformationComponent } from './saved-information/saved-information.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +42,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     CompleteCheckoutComponent,
     BookingCompleteComponent,
     ContactCompleteComponent,
-    ErrorPageComponent, 
+    ErrorPageComponent,
+    SavedInformationComponent, 
   ],
   imports: [
     BrowserModule,

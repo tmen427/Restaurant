@@ -16,6 +16,7 @@ import { CompleteCheckoutComponent } from './complete-checkout/complete-checkout
 import { BookingCompleteComponent } from './booking-complete/booking-complete.component';
 import { ContactCompleteComponent } from './contact-complete/contact-complete.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { SavedInformationComponent } from './saved-information/saved-information.component';
 const routes: Routes = [
   {path:"", component: HomeComponent},
   {path:"home", component: HomeComponent},
@@ -32,7 +33,9 @@ const routes: Routes = [
    {path: "complete", component: CompleteCheckoutComponent},
    {path: "bookingcomplete", component: BookingCompleteComponent},
    {path: "contactcomplete", component: ContactCompleteComponent}, 
-   {path: "errors", component: ErrorPageComponent}
+   {path: "errors", component: ErrorPageComponent},
+   {path: "saved", canActivate: [DashboardService], component: SavedInformationComponent}
+   
 ];
 
 @NgModule({

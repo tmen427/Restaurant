@@ -37,7 +37,8 @@ InformationForm = new FormGroup({
   Expiration: new FormControl('12/30', Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
   CVV: new FormControl('000', [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
  // CartItems: new FormControl(localStorage.getItem('myItemList')), 
-  //CartItems: new FormArray([]), 
+ //set form array to null?
+  CartItems: new FormArray([]), 
   //get the email or username from local storage becuase now you should be logged in 
   Email: new FormControl(localStorage.getItem("user"))
 })
@@ -94,7 +95,7 @@ submitInformation() {
           //   console.log(data.userInformation)        
           // })
 
-          this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token ); 
+          this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token , this.Username); 
 
             }
 

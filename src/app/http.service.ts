@@ -94,25 +94,26 @@ MakeUser(body: any, email: string) {
   let urlconcat = this.url+""+"api/Auth/UserInformation"; 
 
   this.Http.post(urlconcat, body).subscribe({
-    next: data => console.log("hey everything worked!"), 
+    next: data => this.router.navigate(['saved']), 
     error: error => console.log(error)
   })
 
  }  
 
 
-GetUserInformationByEmail(InformationForm: any, Token: string) {
+GetUserInformationByEmail(InformationForm: any, Token: string, Email: string) {
        //after logging in the user should have a token  from the local storage
            //use token and add it to the header in order to access this restricted route  
            const header = { 'Authorization': "bearer"+ ' ' + Token }
-         console.log(InformationForm.value)
+           console.log(InformationForm.value)
+
            //will restrict access to only the email that is being used in the frontend, also verify in backend
-           let url = 'https://localhost:7004/api/Auth/getusers?email='+InformationForm.value.Email; 
+           let url = 'https://localhost:7004/api/Auth/getusers?email='+Email; 
            this.Http.get<any>(url, {headers: header}).subscribe(data=> {
                
           console.log(data.userInformation.creditCardNumber)
           //setting the values in the frontend form 
-           InformationForm.patchValue({ CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+           InformationForm.patchValue({ CartItems: null, CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
             console.log(Object.keys(data))
             console.log(data.userInformation)
            
