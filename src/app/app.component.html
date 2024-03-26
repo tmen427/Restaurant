@@ -24,8 +24,9 @@
   -->
             
                   <li class="nav-item"><a class="nav-link active" aria-current="page"href="signup" *ngIf="showSignup">Sign Up</a></li>
-                  <li class="nav-item"><a class="nav-link active" aria-current="page"href="login" *ngIf="showLogin">Login</a></li>   
-                <li class="nav-item"><a class="nav-link active" aria-current="page"href="/" *ngIf="showLogOut" (click)="LogOut()">LogOut</a></li>   
+                  <li class="nav-item"><a class="nav-link active" aria-current="page"href="login" *ngIf="showLogin">Login</a></li>  
+                  <li class="nav-item"><a class="nav-link active" aria-current="page"href="/userinfo" *ngIf="showLogOut">UserInfo</a></li>  
+                <li class="nav-item"><a class="nav-link active" aria-current="page"href="/" *ngIf="showLogOut" (click)="LogOut()">LogOut</a></li>  
 
                 
         </ul>
