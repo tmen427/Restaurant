@@ -90,10 +90,10 @@
   
         <div class="col-md-8 order-md-1" [formGroup]="InformationForm">
             <h4 class="mb-3">Payment</h4>
-
+            <fieldset [disabled]="oppositetogglebutton">
             <div class="d-block my-3">
-              <div class="custom-control custom-radio">
-                <input id="credit" name="Credit" type="radio" class="custom-control-input" value=true formControlName="Credit" checked required>
+              <div class="custom-control custom-radio" >
+                <input id="credit"  name="Credit" type="radio" class="custom-control-input" value=true formControlName="Credit" checked required>
                 <label class="custom-control-label" for="credit">Credit card</label>
               </div>
               <div class="custom-control custom-radio">
@@ -111,11 +111,9 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="cc-name">Name on card</label>
-                <input type="text" class="form-control" id="cc-name" placeholder="John Doe" formControlName="NameonCard" required>
-             <!--
-                <small class="text-muted">Full name as displayed on card</small>
-              -->
-                <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a (correct) Name</span>
+                <input type="text" class="form-control" id="cc-name" placeholder="John Doe" formControlName="NameonCard">
+               <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a (correct) Name</span>
+             
               </div>
               <div class="col-md-6 mb-3">
                 <label for="cc-number">Credit card number</label>
@@ -135,9 +133,9 @@
                 <span *ngIf=" CVV && CVV?.invalid && CVV?.touched">Please enter an CVV</span>
               </div>
             </div>
-            <hr class="mb-4">
+            <hr class="mb-4">    </fieldset>
             <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="InformationForm.invalid" (click)="submitInformation()">Complete Checkout</button>
-       
+        
         </div>
       </div>
 

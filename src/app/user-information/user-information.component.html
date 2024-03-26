@@ -96,9 +96,6 @@
             <div class="col-md-6 mb-3">
               <label for="cc-name">Name on card</label>
               <input type="text" class="form-control" id="cc-name" placeholder="John Doe" formControlName="NameonCard" required>
-           <!--
-              <small class="text-muted">Full name as displayed on card</small>
-            -->
               <span *ngIf="NameonCard && NameonCard?.invalid && NameonCard?.touched">Please enter a (correct) Name</span>
             </div>
             <div class="col-md-6 mb-3">
@@ -120,8 +117,8 @@
             </div>
           </div>
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="InformationForm.invalid" (click)="submitInformation()">Complete Checkout</button>
-     
+          <button class="btn btn-primary btn-lg btn-block" *ngIf="this.togglebutton" type="submit" [disabled]="InformationForm.invalid" (click)="submitInformation()">Complete Checkout</button>
+          <button class="btn btn-primary btn-lg btn-block" *ngIf="this.oppositetogglebutton" type="submit"  (click)="editInformation()">Edit And Save</button>
       </div>
     </div>
 

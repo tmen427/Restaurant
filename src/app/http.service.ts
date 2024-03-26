@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable, Pipe } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, retry, throwError, pipe, map, Observable, delay} from 'rxjs';
+import { catchError, retry, throwError, pipe, map, Observable, delay, concatWith} from 'rxjs';
 import { ValidationErrors } from '@angular/forms';
 
 
@@ -100,27 +100,46 @@ MakeUser(body: any, email: string) {
 
  }  
 
+EditUserInformation(email: string, InformationForm: any ) {
+  let urlconcant = this.url+""+"api/Auth/UpdateUserInformation?email="+email; 
+ console.log(urlconcant)
+  this.Http.put<any>(urlconcant, InformationForm.value).subscribe({
+    next: data => console.log(data), 
+    error: error => console.log(error)
+  })
 
-GetUserInformationByEmail(InformationForm: any, Token: string, Email: string) {
+}
+
+
+ 
+GetUserInformationByEmail(InformationForm: any, Token: string, Email: string)  {
        //after logging in the user should have a token  from the local storage
            //use token and add it to the header in order to access this restricted route  
            const header = { 'Authorization': "bearer"+ ' ' + Token }
-           console.log(InformationForm.value)
-
+        //  if (InformationForm.value.creditCardNumber == null) console.log("it's nulllll")
            //will restrict access to only the email that is being used in the frontend, also verify in backend
-           let url = 'https://localhost:7004/api/Auth/getusers?email='+Email; 
-           this.Http.get<any>(url, {headers: header}).subscribe(data=> {
-               
-          console.log(data.userInformation.creditCardNumber)
-          //setting the values in the frontend form 
-           InformationForm.patchValue({ CartItems: null, CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
-            console.log(Object.keys(data))
-            console.log(data.userInformation)
-           
-        
-          })
+       let url = 'https://localhost:7004/api/Auth/getusers?email='+Email; 
+                                        
+     return  this.Http.get<any>(url, {headers: header}).pipe(
+        map(data=> {
+                console.log(data.userInformation)
+             if (data.userInformation.creditCardNumber == null) {
+             console.log("first time seeeing this page!")
+             return true; 
+             }
+             if (data.userInformation.creditCardNumber != null) {
+            //send values from the database to the frontend end forms 
+              InformationForm.patchValue({ CartItems: [], CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+             console.log("this user has filled out information before!")
+             return false; 
+            }
+      
+            //set values within patchvalue 
 
+            return false; 
+          }));
 
+     
 }
 
 

@@ -13,10 +13,14 @@ import { catchError, throwError, pipe } from 'rxjs';
 })
 export class InformationComponent {
 
+  toggleButton: boolean = false; 
+  oppositetogglebutton: boolean = !this.toggleButton; 
+
+
 InformationForm = new FormGroup({
   Credit: new FormControl('true', Validators.required),
   Debit: new FormControl('false'),  
-  NameonCard: new FormControl('John Doe', [Validators.required, Validators.pattern("^[a-zA-z\\s]*$")]), 
+  NameonCard: new FormControl( 'John Doe', [Validators.required, Validators.pattern("^[a-zA-z\\s]*$")]), 
   CreditCardNumber: new FormControl('000-000-0000', Validators.pattern("^[0-9]{3}(-)[0-9]{3}(-)[0-9]{4}")),
   Expiration: new FormControl('12/30', Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
   CVV: new FormControl('000', [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
@@ -75,10 +79,12 @@ get Credit() {
       cart.push(new FormControl({item: item, price: price}))
    
       let formarrayItem = cart.value[i].item; 
-      let formarrayPrice = cart.value[i].price; 
-      //  console.log(cart.value)
+      let formarrayPrice = cart.value[i].price;
+      console.log(this.InformationForm.value)
+      console.log(this.InformationForm.value.CreditCardNumber)
+      console.log(this.InformationForm.value.NameonCard)
      this.example = {orderInformationNameonCard: this.InformationForm.value.NameonCard, item: formarrayItem, price : formarrayPrice}
-      
+      console.log(this.example)
     //gets submitted in the for loop, but if an error is thrown break it 
      this.HttpService.MenuForm(this.example).subscribe({
        next: data=>{
@@ -88,7 +94,9 @@ get Credit() {
          this.finalprice = 0;  
          this.finalpricestring = "0"; 
          this.conversion = []; 
-         localStorage.clear();
+         localStorage.removeItem("myItemList");
+         localStorage.removeItem("myItemSize");
+        // localStorage.clear();
          this.Router.navigate(['complete'])
      },
          
@@ -136,12 +144,24 @@ get Credit() {
    cartgreaterthenzero: boolean = false; 
    cartiszero: boolean = true; 
    example: any = {}; 
-   
-   ngOnInit():void {
 
-      //if the user is logged in 
-    this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token, this.Username ); 
-              
+
+   ngOnInit():void {
+   
+     if (!this.Token) {
+      console.log("no otken my friend")
+      this.oppositetogglebutton = false; 
+     } 
+     
+     //if the user is logged in 
+     if (this.Token && this.UserName) { 
+    this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token, this.Username).subscribe({
+      next: data =>  {
+        console.log(this.toggleButton)
+        this.toggleButton = data
+      }
+     }); 
+    }
   //   const email = this.Username;   
   //  // after logging in the user should have a token  from the local storage
   //  // use token and add it to the header in order to access this restricted route  
@@ -156,10 +176,6 @@ get Credit() {
   
   //    console.log(data.userInformation)        
   //  }) 
-
-
-
-
 
 
     if (this.cartService.getCartSize()>0) {

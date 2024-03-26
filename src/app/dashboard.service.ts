@@ -24,8 +24,7 @@ export class DashboardService {
 
     
   showLogOut(value: boolean): boolean {
-    console.log("the showlogout should have changed from here")
-    console.log(value);
+   
     return this.showingLogout = value; 
   }
 

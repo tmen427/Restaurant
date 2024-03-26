@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CartService } from './cart.service';
 import { DashboardService } from './dashboard.service';
-
+import { Router, RouterOutlet } from '@angular/router';
 
 
 
@@ -17,7 +17,7 @@ export class AppComponent {
   showSignup: boolean = true; 
   showLogOut: boolean = this.Dash.showingLogout; 
   
-  constructor(private cartService: CartService, private Dash: DashboardService) {}
+  constructor(private cartService: CartService, private Dash: DashboardService, private router : Router) {}
 
   LogOut() {
     localStorage.removeItem("id_token");
@@ -29,19 +29,37 @@ export class AppComponent {
   
 
   ngOnInit(): void {
-   //not the best solution
-   
+ 
+   //when  component changing then do the check if the user is logged in ...
    this.showLogOut = this.Dash.showingLogout; 
-  // console.log(this.Dash.showingLogout)
-    setInterval(()=>{ this.cartSize = this.cartService.getCartSize();
-         
+
+
+   //constantly checking the cart information 
+    setInterval(()=>{ 
+      this.cartSize = this.cartService.getCartSize();
     }, 100);
     
+    //check for any changes when the component changes
+   this.router.events.subscribe((event) => 
+   {
+
+    this.cartSize = this.cartService.getCartSize();
+
     if (localStorage.getItem("id_token") && localStorage.getItem("user")) {
       this.showLogin = false; 
       this.showSignup = false; 
       this.showLogOut = true; 
     }
-  }
+    //user will be logged out after payment 
+    else {
+      this.showLogin = true; 
+      this.showSignup = true; 
+      this.showLogOut = false; 
+    };
+
+   }) 
+}
+
+
 
 }

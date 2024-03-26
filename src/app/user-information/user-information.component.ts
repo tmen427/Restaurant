@@ -18,24 +18,15 @@ export class UserInformationComponent {
   Username: string = localStorage.getItem("user")!; 
   Token: string = localStorage.getItem("id_token")!; 
    
-//   UserInformation = new FormGroup({
-//     FirstName: new FormControl(),
-//     LastName: new FormControl(), 
-//     UserName: new FormControl(localStorage.getItem("user")), 
-//     Email: new FormControl(), 
-//     Address: new FormControl(), 
-//     Country: new FormControl(), 
-//     State: new FormControl(), 
-//     Zip: new FormControl() 
-// })
+
 
 InformationForm = new FormGroup({
   Credit: new FormControl('true', Validators.required),
   Debit: new FormControl('false'),  
-  NameonCard: new FormControl('John Doe', [Validators.required, Validators.pattern("^[a-zA-z\\s]*$")]), 
-  CreditCardNumber: new FormControl('000-000-0000', Validators.pattern("^[0-9]{3}(-)[0-9]{3}(-)[0-9]{4}")),
-  Expiration: new FormControl('12/30', Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
-  CVV: new FormControl('000', [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
+  NameonCard: new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-z\\s]*$")]), 
+  CreditCardNumber: new FormControl(null, Validators.pattern("^[0-9]{3}(-)[0-9]{3}(-)[0-9]{4}")),
+  Expiration: new FormControl(null, Validators.pattern("^[0-9]{2}(/)[0-9]{2}")), 
+  CVV: new FormControl(null, [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
  // CartItems: new FormControl(localStorage.getItem('myItemList')), 
  //set form array to null?
   CartItems: new FormArray([]), 
@@ -70,33 +61,53 @@ get Email() {
 submitInformation() {
   // create a new route here 
      console.log(this.InformationForm.value)
-    this.HttpService.AddUserInformation(this.InformationForm.value); 
-
+    this.HttpService.AddUserInformation(this.InformationForm); 
+    //add an add button 
    }
-   
 
+editInformation() {
+  console.log("edit some information here bro ")
+ // console.log(this.InformationForm.value)
+  this.HttpService.EditUserInformation(this.Username, this.InformationForm)
+}   
+  
+  togglebutton: boolean = false; 
+  oppositetogglebutton: boolean = !this.togglebutton; 
+    ngOnInit() {  
+      
+       this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token , this.Username).subscribe({
+        next: data => {
+        this.togglebutton = data; 
+        console.log(data)
+        },  
+    }); 
+          //    .subscribe({
+          //  next: data=> {
+          //   console.log(data.userInformation)
+          //   if (data.userInformation.creditCardNumber == null) {
+          //    console.log("first time seeeing this page!")
+          //    return this.togglebutton = true; 
+          //    }
+          //   if (data.userInformation.creditCardNumber != null) {
+          //     console.log("this user has filled out information before!")
+          //    return this.togglebutton = false; 
+          //   }
+     
+          //  this.InformationForm.patchValue({ CartItems: undefined, CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
+          
 
+          //  return this.togglebutton = false; 
+          //  },
+          //  error: error=> {
+          //     console.log("error communicating with backend ")
+          //     console.log(error); 
+          //  }
+        
+          // }) 
+        
+        
+       
 
-
-    ngOnInit() {     
-           
-           const email = this.InformationForm.value.Email;   
-           //after logging in the user should have a token  from the local storage
-           //use token and add it to the header in order to access this restricted route  
-          //  const header = { 'Authorization': "bearer"+ ' ' + this.Token }
-          // // console.log(header);
-          //  //will restrict access to only the email that is being used in the frontend, also verify in backend
-          //  let url = 'https://localhost:7004/api/Auth/getusers?email='+email; 
-          //  this.Http.get<any>(url, {headers: header}).subscribe(data=> {
-               
-          // console.log(data.userInformation.creditCardNumber)
-          //  this.InformationForm.patchValue({ CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
-          //   console.log(Object.keys(data))
-          //   console.log(data.userInformation)        
-          // })
-
-          this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token , this.Username); 
-
-            }
+          }
 
 }
