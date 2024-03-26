@@ -149,7 +149,7 @@ get Credit() {
    ngOnInit():void {
    
      if (!this.Token) {
-      console.log("no otken my friend")
+      console.log("not logged in")
       this.oppositetogglebutton = false; 
      } 
      

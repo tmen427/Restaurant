@@ -29,7 +29,7 @@ InformationForm = new FormGroup({
   CVV: new FormControl(null, [Validators.pattern("^[0-9]{3}"), Validators.minLength(3)]), 
  // CartItems: new FormControl(localStorage.getItem('myItemList')), 
  //set form array to null?
-  CartItems: new FormArray([]), 
+  CartItems: new FormArray([]),   
   //get the email or username from local storage becuase now you should be logged in 
   Email: new FormControl(localStorage.getItem("user"))
 })
@@ -65,18 +65,22 @@ submitInformation() {
     //add an add button 
    }
 
+  togglebutton: boolean = false; 
+  oppositetogglebutton: boolean = !this.togglebutton;  
+
 editInformation() {
   console.log("edit some information here bro ")
  // console.log(this.InformationForm.value)
   this.HttpService.EditUserInformation(this.Username, this.InformationForm)
 }   
   
-  togglebutton: boolean = false; 
-  oppositetogglebutton: boolean = !this.togglebutton; 
+
     ngOnInit() {  
-      
+      //that means the form hasne't been touched yet
+  
        this.HttpService.GetUserInformationByEmail(this.InformationForm, this.Token , this.Username).subscribe({
         next: data => {
+          console.log(this.InformationForm.value.NameonCard)
         this.togglebutton = data; 
         console.log(data)
         },  
@@ -104,8 +108,12 @@ editInformation() {
           //  }
         
           // }) 
-        
-        
+          //alwys going to be null though
+          console.log(this.InformationForm.value.NameonCard)
+          if(this.InformationForm.value.NameonCard == null) {
+            console.log("the form hasent' been touched yet")
+//            this.oppositetogglebutton = false; 
+           }
        
 
           }

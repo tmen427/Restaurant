@@ -90,10 +90,11 @@ MakeUser(body: any, email: string) {
   }
 
 
- AddUserInformation(body: object) {
+ AddUserInformation(body: any) {
   let urlconcat = this.url+""+"api/Auth/UserInformation"; 
-
-  this.Http.post(urlconcat, body).subscribe({
+   
+console.log(body.value)
+  this.Http.post<any>(urlconcat, body.value).subscribe({
     next: data => this.router.navigate(['saved']), 
     error: error => console.log(error)
   })
@@ -128,7 +129,7 @@ GetUserInformationByEmail(InformationForm: any, Token: string, Email: string)  {
              return true; 
              }
              if (data.userInformation.creditCardNumber != null) {
-            //send values from the database to the frontend end forms 
+            //send values from the database to the frontend end forms, but does it autofill even if you do touch the form???
               InformationForm.patchValue({ CartItems: [], CreditCardNumber : data.userInformation.creditCardNumber, NameonCard: data.userInformation.nameonCard, Expiration: data.userInformation.expiration, CVV: data.userInformation.cvv}); 
              console.log("this user has filled out information before!")
              return false; 
